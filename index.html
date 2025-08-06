@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ayanda's Quick Bites</title>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+  <style>
+    :root {
+      --main-bg: #fff8f0;
+      --main-text: #333;
+      --accent: #ff6b00;
+      --card-bg: #fff;
+    }
+
+    body.dark-mode {
+      --main-bg: #1e1e1e;
+      --main-text: #f5f5f5;
+      --accent: #ff8c42;
+      --card-bg: #2c2c2c;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: var(--main-bg);
+      color: var(--main-text);
+      transition: background-color 0.3s ease, color 0.3s ease;
+      scroll-behavior: smooth;
+    }
+
+    header {
+      background: var(--accent);
+      color: white;
+      padding: 20px;
+      text-align: center;
+      position: relative;
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 2.5em;
+    }
+
+    header p {
+      margin: 5px 0 0;
+      font-style: italic;
+    }
+
+    .hamburger {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      cursor: pointer;
+      width: 30px;
+      height: 22px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      z-index: 20;
+    }
+
+    .hamburger div {
+      height: 4px;
+      background: white;
+      border-radius: 2px;
+    }
+
+    .dropdown {
+      display: none;
+      position: absolute;
+      left: 20px;
+      top: 60px;
+      background: var(--card-bg);
+      border: 1px solid var(--accent);
+      border-radius: 10px;
+      padding: 10px;
+      width: 280px;
+      z-index: 15;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+    }
+
+    .dropdown a {
+      display: block;
+      color: var(--main-text);
+      margin: 8px 0;
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    .dropdown a i {
+      margin-right: 8px;
+      color: var(--accent);
+    }
+
+    .social-links {
+      margin-top: 10px;
+      border-top: 1px solid var(--accent);
+      padding-top: 10px;
+    }
+
+    .social-links a {
+      display: flex;
+      align-items: center;
+      margin: 6px 0;
+      color: var(--main-text);
+      text-decoration: none;
+      font-weight: normal;
+      font-size: 1em;
+    }
+
+    .social-links a i {
+      margin-right: 10px;
+      font-size: 1.3em;
+      color: var(--accent);
+      width: 22px;
+      text-align: center;
+    }
+
+    .social-links a:hover {
+      text-decoration: underline;
+    }
+
+    .carousel {
+      position: relative;
+      overflow: hidden;
+      max-width: 90%;
+      margin: 30px auto;
+    }
+
+    .carousel-track {
+      display: flex;
+      transition: transform 0.5s ease-in-out;
+    }
+
+    .carousel img {
+      width: 300px;
+      height: 200px;
+      object-fit: cover;
+      border-radius: 10px;
+      margin: 0 10px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+    }
+
+    .carousel-btn {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background: var(--accent);
+      border: none;
+      color: white;
+      font-size: 1.5em;
+      padding: 10px;
+      cursor: pointer;
+      z-index: 2;
+      border-radius: 50%;
+    }
+
+    .prev-btn {
+      left: 10px;
+    }
+
+    .next-btn {
+      right: 10px;
+    }
+
+    .menu {
+      padding: 40px 20px;
+      background: var(--main-bg);
+      text-align: center;
+    }
+
+    .menu button {
+      padding: 15px 30px;
+      font-size: 1.2em;
+      background: var(--accent);
+      color: white;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      margin-bottom: 20px;
+    }
+
+    .menu-content {
+      display: none;
+      animation: slideDown 0.3s ease forwards;
+    }
+
+    @keyframes slideDown {
+      from { opacity: 0; transform: translateY(-20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .menu-group {
+      background: var(--card-bg);
+      border-radius: 15px;
+      max-width: 600px;
+      margin: 20px auto;
+      padding: 20px;
+      box-shadow: 0 0 15px rgba(0,0,0,0.1);
+      text-align: left;
+    }
+
+    .menu-group h3 {
+      color: var(--accent);
+      margin-bottom: 10px;
+      border-bottom: 1px solid var(--accent);
+    }
+
+    .menu-group ul {
+      list-style: none;
+      padding-left: 20px;
+    }
+
+    .menu-group li {
+      margin: 5px 0;
+      font-size: 1.1em;
+    }
+
+    .contact {
+      text-align: center;
+      padding: 30px;
+    }
+
+    .contact a {
+      background: var(--accent);
+      color: white;
+      padding: 10px 20px;
+      text-decoration: none;
+      border-radius: 8px;
+      font-weight: bold;
+    }
+
+    .download-section {
+      text-align: center;
+      margin: 30px 0;
+    }
+
+    .download-section a {
+      text-decoration: none;
+      background: var(--accent);
+      color: white;
+      padding: 12px 25px;
+      border-radius: 10px;
+      font-weight: bold;
+    }
+
+    .dev-info {
+      text-align: center;
+      padding: 20px;
+      display: none;
+      animation: fadeIn 0.3s ease-in forwards;
+    }
+
+    footer {
+      text-align: center;
+      padding: 20px;
+      background: #222;
+      color: #ccc;
+    }
+
+    footer a {
+      color: #ccc;
+      text-decoration: none;
+      margin: 0 10px;
+      transition: color 0.3s ease;
+    }
+
+    footer a:hover {
+      color: var(--accent);
+    }
+
+    .scroll-animate {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: all 0.3s ease-out;
+    }
+
+    .scroll-animate.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    @media screen and (max-width: 768px) {
+      .carousel img {
+        width: 90%;
+        height: auto;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Ayanda's Quick Bites</h1>
+    <p>Bites that are always right</p>
+    <div class="hamburger" onclick="toggleDropdown()">
+      <div></div><div></div><div></div>
+    </div>
+    <div class="dropdown" id="dropdownMenu">
+      <a href="#" id="devDetailsBtn"><i class="fas fa-user-cog"></i> Developer Details</a>
+      <a href="#" onclick="toggleDarkMode()"><i class="fas fa-adjust"></i> Toggle Dark Mode</a>
+
+      <!-- Social links container, hidden initially -->
+      <div class="social-links" id="socialLinks" style="display:none; margin-top: 10px;">
+        <a href="https://facebook.com/talentemasoka" target="_blank" rel="noopener">
+          <i class="fab fa-facebook"></i> Talente Masoka
+        </a>
+        <a href="https://wa.me/27731917497" target="_blank" rel="noopener">
+          <i class="fab fa-whatsapp"></i> +2773 191 7497
+        </a>
+        <a href="https://tiktok.com/@talentemsk" target="_blank" rel="noopener">
+          <i class="fab fa-tiktok"></i> @talentemsk
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <div class="carousel scroll-animate">
+    <button class="carousel-btn prev-btn" onclick="moveSlide(-1)">&#10094;</button>
+    <div class="carousel-track" id="carouselTrack">
+      <img src="hotdog.png" alt="Hot Dog" />
+      <img src="sandwich.png" alt="Sandwich" />
+      <img src="shawarma.png" alt="Shawarma" />
+    </div>
+    <button class="carousel-btn next-btn" onclick="moveSlide(1)">&#10095;</button>
+  </div>
+
+  <section class="menu scroll-animate">
+    <button onclick="toggleMenu()">CLICK TO SEE OUR MENU AND PRICES</button>
+    <div class="menu-content" id="menuContent">
+      <div class="menu-group">
+        <h3>Shawarma</h3>
+        <ul><li>Shawarma - R30</li><li>+ Cheese - R5</li></ul>
+      </div>
+      <div class="menu-group">
+        <h3>Fries</h3>
+        <ul><li>Small - R15</li><li>Medium - R20</li><li>Large - R28</li></ul>
+      </div>
+      <div class="menu-group">
+        <h3>Fat Cakes</h3>
+        <ul><li>Plain - R5</li><li>With Polony - R6</li></ul>
+      </div>
+      <div class="menu-group">
+        <h3>Hot Dogs</h3>
+        <ul><li>Hot Dog 1 - R15</li><li>Hot Dog 2 - R17</li></ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="download-section scroll-animate">
+    <a href="MENU.jpg" download>📥 DOWNLOAD MENU HERE</a>
+  </section>
+
+  <section class="contact scroll-animate">
+    <a href="https://wa.me/27731917497" target="_blank">Order Now on WhatsApp</a>
+  </section>
+
+  <footer>
+    &copy; 2025 Ayanda's Quick Bites. All rights reserved. <br>
+    <a href="#top">Back to Top</a>
+  </footer>
+
+  <script>
+    let currentIndex = 0;
+
+    function toggleDropdown() {
+      const dropdown = document.getElementById('dropdownMenu');
+      // If dropdown is being closed, also hide socials and reset
+      if (dropdown.style.display === 'block') {
+        dropdown.style.display = 'none';
+        hideSocialLinks();
+      } else {
+        dropdown.style.display = 'block';
+      }
+    }
+
+    function toggleDarkMode() {
+      document.body.classList.toggle('dark-mode');
+    }
+
+    function toggleMenu() {
+      const menu = document.getElementById('menuContent');
+      menu.style.display = menu.style.display === 'block' ? 'none' : 'block';
+    }
+
+    function moveSlide(step) {
+      const track = document.getElementById('carouselTrack');
+      const slides = track.querySelectorAll('img');
+      currentIndex = (currentIndex + step + slides.length) % slides.length;
+      const width = slides[0].clientWidth + 20;
+      track.style.transform = `translateX(-${currentIndex * width}px)`;
+    }
+
+    function showSocialLinks() {
+      document.getElementById('socialLinks').style.display = 'block';
+      // Optionally disable Developer Details button while socials visible
+      document.getElementById('devDetailsBtn').style.pointerEvents = 'none';
+      document.getElementById('devDetailsBtn').style.opacity = '0.6';
+    }
+
+    function hideSocialLinks() {
+      document.getElementById('socialLinks').style.display = 'none';
+      document.getElementById('devDetailsBtn').style.pointerEvents = 'auto';
+      document.getElementById('devDetailsBtn').style.opacity = '1';
+    }
+
+    // Attach event listener for Developer Details link
+    document.getElementById('devDetailsBtn').addEventListener('click', (e) => {
+      e.preventDefault();
+      const socials = document.getElementById('socialLinks');
+      if (socials.style.display === 'block') {
+        hideSocialLinks();
+      } else {
+        showSocialLinks();
+      }
+    });
+
+    // On page load, show all scroll-animate elements immediately with fast animation
+    window.addEventListener('DOMContentLoaded', () => {
+      document.querySelectorAll('.scroll-animate').forEach(el => {
+        el.classList.add('visible');
+      });
+    });
+
+    // Optional: close dropdown if user clicks outside it
+    window.addEventListener('click', (e) => {
+      const dropdown = document.getElementById('dropdownMenu');
+      const hamburger = document.querySelector('.hamburger');
+      if (!dropdown.contains(e.target) && !hamburger.contains(e.target)) {
+        dropdown.style.display = 'none';
+        hideSocialLinks();
+      }
+    });
+  </script>
+</body>
+</html>
